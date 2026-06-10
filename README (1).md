@@ -1,11 +1,8 @@
-<img src="https://cdn.prod.website-files.com/677c400686e724409a5a7409/6790ad949cf622dc8dcd9fe4_nextwork-logo-leather.svg" alt="NextWork" width="300" />
 
 # Automated Backup Script on Linux
 
 **Project Link:** [View Project](https://learn.nextwork.org/projects/caf37fbf-1c43-4755-ae48-7edde46e07c1)
 
-**Author:** Mwaks  
-**Email:** vkanyili02@gmail.com
 
 ---
 
@@ -15,7 +12,7 @@
 
 ### Goals and motivation
 
-In this project, I am building an automated linux system that backups files, compresses and archives them using tar and gzip  and uses cron to do the automation at a set time. The project also implements logging of events that involves the files being backed up.
+In this project, I am building an automated linux system that backups files, compresses and archives them using tar and gzip and uses cron to do the automation at a set time. The project also implements logging of events that involves the files being backed up.
 
 ## Setting Up the Project Structure
 
@@ -23,15 +20,43 @@ In this project, I am building an automated linux system that backups files, com
 
 In this step, I'm setting up a directory for the project and sample data to backup. Then I shall create a backup destination directory and create a script file that will house the automation code. 
 
+Firstly, I created the backup_project and sample_data directories that will be reference directories for this task.
+
+```bash
+mkdir -p ~/backup_project/sample-data
+```
+Next is to add sample files into the sample_data directories.
+
+```bash
+echo "Important Information for this project" > ~/backup-project/sample-data/file1.txt
+echo "Notes written for the project" > ~/backup_project/sample_data/file2.txt
+echo "Configuration settings" > ~/backup_project/sample_data/file3.txt
+```
+Next task is to create the backups directory as a nested directory within the backup_project directory
+
+```bash
+mkdir -p ~/backup_project/backups
+```
+Additionally, the bash script for the backups is created. This is the script that will perform the automated backup and logging retention.
+
+```bash
+nano ~/backup_project/backup.sh
+```
+
+The script is made executable by running:
+```bash
+chmod +x ~/backup_project/backup.sh
+```
+Verify the script has execute permission by running:
+```bash
+ls -l ~/backup_project/backup.sh
+```
+
+
 ![Image](https://learn.nextwork.org/joyful_turquoise_jolly_manatee/uploads/caf37fbf-1c43-4755-ae48-7edde46e07c1_kyq7xaed)
 
-### Purpose of sample data
-
-The sample-data directory is used to store example data that shall be referenced in the backup process using the script. The files in the directory shall also be monitored in the logging process.
 
 ## Writing the Backup Script Core
-
-### Script design approach
 
 In this step, I'm writing the core of the backup.sh script to configure the script variables, write a log function that shall handle logging of events related to the files in the sample_data directory,  and write the tar compression command that shall create a timestamped archive.
 
