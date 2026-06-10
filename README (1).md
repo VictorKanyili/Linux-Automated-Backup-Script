@@ -1,5 +1,5 @@
 
-# Automated Backup Script on Linux
+# (UNDER CONSTRUCTION)Automated Backup Script on Linux
 
 **Project Link:** [View Project](https://learn.nextwork.org/projects/caf37fbf-1c43-4755-ae48-7edde46e07c1)
 
@@ -88,24 +88,5 @@ I used the expression 20 19 * * * /home/mwaks/backup_project/backup.sh which has
 
 ![Image](https://learn.nextwork.org/joyful_turquoise_jolly_manatee/uploads/caf37fbf-1c43-4755-ae48-7edde46e07c1_affrnh40)
 
-## Secret Mission: Disk Space Check and Backup Integrity Verification
-
-### Why verify immediately after creation
-
-## Reflections and Key Takeaways
-
-### Tools and concepts learned
-
-The key tools I used include cron, logging and rotation, backup, and scripting
-
-### Time and challenges
-
-This project took me approximately 2 hours
-
-### Looking ahead
-
-I did this project today to learn how to automate file backup using cron, implement logging and automated deletion of backups no longer needed.
-
----
-
-*Built with [NextWork](https://learn.nextwork.org) - [View this project](https://learn.nextwork.org/projects/caf37fbf-1c43-4755-ae48-7edde46e07c1)*
+#
+[View this project](https://learn.nextwork.org/projects/caf37fbf-1c43-4755-ae48-7edde46e07c1)*
