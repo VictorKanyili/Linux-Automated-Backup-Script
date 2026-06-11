@@ -1,5 +1,5 @@
 
-# Automated Backup and logging Script on Linux
+# Automated Backup and Logging Script on Linux
 
 ---
 ## Project Overview
