@@ -194,14 +194,27 @@ ls -l "$BACKUP_DIR"/backup_*.tar.gz >> "$LOG_FILE" 2>/dev/null
 log "________________"
 ```
 
-The find command searches your backup directory for .tar.gz files with a modification time older than 7 days. The *-print -delete* flags output the filenames and remove them in one sweep
+*NOTE:* The find command searches your backup directory for .tar.gz files with a modification time older than 7 days. The *-print -delete* flags output the filenames and remove them in one sweep.
 
 The output of find is captured into the DELETED variable. The if ([ -n "$DELETED" ]) check tests whether the variable is non-empty. If files were deleted, their names get logged. If nothing was old enough to remove, a "no backups to remove" message is logged instead.
 
-The final ls -l writes a listing of all remaining backups directly into the log file. The log "____________" line adds a visual separator between runs so the log stays readable over time.
+The final ls -l writes a listing of all remaining backups directly into the log file. 
+The log "____________" line adds a visual separator between runs for distinction between different run sessions.*
 
+To confirm that the srcipt is running, ensure you are in the backup_project directory then run:
+```bash
 
-### Logging with tee -a
+./backup.sh
+```
+The terminal output should show lines like: a "Starting backup" message, a "SUCCESS: Backup created" confirmation, a "Rotating backups" message, a "No backups older than 7 days to remove" message (since this is the first run this will show), and a "Backup complete" line.
+
+Confirm that the backup archive was created by running:
+
+```bash
+ls -l backup/
+```
+
+At least one file named something like *backup_2026-06-05_19-30-02.tar.gz* will show
 
 
 
