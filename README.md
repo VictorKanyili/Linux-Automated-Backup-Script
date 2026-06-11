@@ -1,39 +1,33 @@
 
-# (UNDER CONSTRUCTION)Automated Backup Script on Linux
-
+# Automated Backup and logging Script on Linux
 
 ---
-
-![Image](https://learn.nextwork.org/joyful_turquoise_jolly_manatee/uploads/caf37fbf-1c43-4755-ae48-7edde46e07c1_j46w5a9l)
-
 ## Project Overview
 
 ### Goals and motivation
 
-In this project, you will write a *Bash* script from scratch that compresses a directory into a timestamped archive, enforces a retention policy to delete old backups, logs every action, and runs automatically on a daily schedule.
-
-
+In this project, we will write a *Bash* script from scratch that compresses a directory into a timestamped archive, enforces a retention policy to delete old backups, logs every action, and runs automatically on a daily schedule.
 
 ---
 ## Setting Up the Project Structure
 
 ### Planning the setup
 
-In this step, I'm setting up a directory for the project and sample data to backup. Then I shall create a backup destination directory and create a script file that will house the automation code. 
+In this step, a directory for the project and sample data to backup is set up. Then I shall create a backup destination directory and create a script file that will house the automation code. 
 
-Firstly, I created the backup_project and sample_data directories that will be reference directories for this task.
+Firstly, the *backup_project* and *sample_data* directories that will be reference directories for this task are created.
 
 ```bash
 mkdir -p ~/backup_project/sample-data
 ```
-Next is to add sample files into the sample_data directories.
+Next is to add sample files into the *sample_data* directories.
 
 ```bash
 echo "Important Information for this project" > ~/backup-project/sample-data/file1.txt
 echo "Notes written for the project" > ~/backup_project/sample_data/file2.txt
 echo "Configuration settings" > ~/backup_project/sample_data/file3.txt
 ```
-Next task is to create the backups directory as a nested directory within the backup_project directory
+Next task is to create the *backups* directory as a nested directory within the *backup_project* directory
 
 ```bash
 mkdir -p ~/backup_project/backups
@@ -52,21 +46,22 @@ Append the shebang line as the first line of the script
 Save and exit the nano editor.
 
 The script is made executable by running:
+
 ```bash
 chmod +x ~/backup_project/backup.sh
 ```
+
 Verify the script has execute permission by running:
+
 ```bash
 ls -l ~/backup_project/backup.sh
 ```
-
-
 ![Image](https://learn.nextwork.org/joyful_turquoise_jolly_manatee/uploads/caf37fbf-1c43-4755-ae48-7edde46e07c1_kyq7xaed)
 
 
 ## Writing the Backup Script Core
 
-In this step, I'm writing the core of the backup.sh script to configure the script variables, write a log function that shall handle logging of events related to the files in the sample_data directory,  and write the tar compression command that shall create a timestamped archive.
+In this step, the core of the backup.sh script to configure the script variables is written, a log function that shall handle logging of events related to the files in the sample_data directory is also written, and the tar compression command that shall create a timestamped archive.
 
 ### Declaring the script variables
 
@@ -116,8 +111,7 @@ fi
 
 mkdir -p "$BACKUP_DIR"
 ```
-The *log()* function is used to hold the date variable for the script to indicate when a cetain event took place and it also houses another variable $1 that is a "placeholder" for the arguments that shall be the input for the log() function. The *tee -a* is useful because it appends the output of the log function into the referenced log file and to the terminal.
-
+The *log()* function is used to hold the date variable for the script to indicate when a cetain event took place and it also houses another variable *$1* that is a "placeholder" for the arguments that shall be the input for the *log()* function. The *tee -a* is useful because it appends the output of the log function into the referenced log file and to the terminal.
 
 
 ### Writing the tar compression logic
@@ -141,19 +135,20 @@ fi
 
 Save the script and exit the nano editor
 
-Run the script to test it by running this command:
+Next is to test the script by running this command:
 ```bash
 ./backup.sh
 ```
 
-You should see a log message printed to the terminal confirming the backup was created, something like
+A log message is printed to the terminal confirming the backup was created, something like
 *SUCCESS: Backup created -> /home/.../backups/backup_2026-06-05_14-30-22.tar.gz*
 
-Confirm the archive exists in your backups folder by running:
+Confirm the archive exists in the backups folder by running:
+
 ```bash
 ls ~/backup_project/backups/
 ```
-You should see a file named backup_ followed by the day's date and time, ending in .tar.gz.
+A file named backup_ followed by the day's date and time, ending in .tar.gz should be seen.
 
 
 ![Image](https://learn.nextwork.org/joyful_turquoise_jolly_manatee/uploads/caf37fbf-1c43-4755-ae48-7edde46e07c1_a1byrvlg)
@@ -170,7 +165,6 @@ Re-open the script using nano by running:
 ```bash
 nano ~/backup_project/backup.sh
 ```
-
 
 After the last line add the following:
 
@@ -202,8 +196,8 @@ The final ls -l writes a listing of all remaining backups directly into the log 
 The log "____________" line adds a visual separator between runs for distinction between different run sessions.*
 
 To confirm that the srcipt is running, ensure you are in the backup_project directory then run:
-```bash
 
+```bash
 ./backup.sh
 ```
 The terminal output should show lines like: a "Starting backup" message, a "SUCCESS: Backup created" confirmation, a "Rotating backups" message, a "No backups older than 7 days to remove" message (since this is the first run this will show), and a "Backup complete" line.
@@ -214,21 +208,58 @@ Confirm that the backup archive was created by running:
 ls -l backup/
 ```
 
-At least one file named something like *backup_2026-06-05_19-30-02.tar.gz* will show
+At least one file named something like *backup_2026-06-05_20-01-02.tar.gz* will show
 
+Check that the log file was created and contains the full record by running:
 
+```bash
+cat backup.log
+```
+![Image](images/sc1.png)
+
+---
 
 ## Scheduling Automated Backups with Cron
 
+In this step, Ithe script is registered with cron so that it executes automatically every day at a set time without any manual intervention.
+
 ### Automating the schedule
 
-In this step, I'm scheduling the script to run periodically so that the identified files can be backed up automatically at the set time.
+Open the crontab editor.
+The crontab is a per-user file that tells cron which commands to run and when. It is edited with a dedicated command that validates your changes automatically on save.
+
+Run the following in the terminal to open crontab:
+
+```bash
+crontab -e
+```
+
+Next is to scroll to the bottom of the crontab file (below any comment lines starting with #) and add this line at the very end of the file:
+
+```bash
+32 21 * * * /home/mwaks/backup_project/backup.sh
+```
 
 ### Breaking down the cron expression
 
-I used the expression 20 19 * * * /home/mwaks/backup_project/backup.sh which has five fields representing the minute, hour, day of the month, month, and day of the week with only the minute and hour fields being represent by 32 and 21 respectively.
+I used the expression 20 19 * * * /home/mwaks/backup_project/backup.sh which has five fields showcased by "*" representing the minute, hour, day of the month, month, and day of the week respectively with only the minute and hour fields being represent by 32 and 21 respectively.
+
+
+Confirm the cron job is installed by running this command in the terminal:
+
+```bash
+crontab -l
+```
+The output should look like :
 
 ![Image](https://learn.nextwork.org/joyful_turquoise_jolly_manatee/uploads/caf37fbf-1c43-4755-ae48-7edde46e07c1_affrnh40)
 
-#
-[View this project](https://learn.nextwork.org/projects/caf37fbf-1c43-4755-ae48-7edde46e07c1)*
+Lastly check the *backup.log* file to confirm the new run was recorded:
+Navigate to the *backup_project* directory and run the following:
+
+```bash
+cat backup.log
+```
+A fresh set of timestamped log entries should be seen at the bottom showing a successful backup creation and rotation check.
+
+
